@@ -29,11 +29,11 @@ document.addEventListener("keydown", function(event) {
 
               // Determinar o tamanho máximo de cada item para ajustar as colunas
               const tamanhoMaximo = Math.max(...valoresColunaD.map(item => item.length));
-              const numeroDeColunas = Math.ceil(valoresColunaD.length / 20);
+              const numeroDeColunas = Math.ceil(valoresColunaD.length / 15);
               const colunasFormatadas = Array.from({ length: numeroDeColunas }, () => []);
 
               valoresColunaD.forEach((valor, index) => {
-                  const colunaIndex = Math.floor(index / 20);
+                  const colunaIndex = Math.floor(index / 15);
                   colunasFormatadas[colunaIndex].push(valor.padEnd(tamanhoMaximo, ' '));
               });
 
@@ -87,18 +87,19 @@ function showModal(resultado) {
   // Criar uma caixa de texto
   const inputBox = document.createElement('input');
   inputBox.type = 'text';
-  inputBox.placeholder = 'Digite aqui';
+  inputBox.placeholder = 'Digite o número da opção e dê Enter';
   inputBox.style.display = 'block';
   inputBox.style.width = '100%';
   inputBox.style.marginBottom = '10px';
   inputBox.style.padding = '10px';
   inputBox.style.border = '1px solid #ccc';
   inputBox.style.borderRadius = '5px';
+  inputBox.style.backgroundColor = 'white';
+  inputBox.style.color = 'black';
 
   inputBox.addEventListener('keydown', function(event) {
       if (event.key === 'Enter') {
-          console.log(`Texto inserido: ${inputBox.value}`);
-          inputBox.value = ''; // Limpar o campo após pressionar Enter
+        document.body.removeChild(modal);
       }
   });
 
