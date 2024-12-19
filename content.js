@@ -132,7 +132,7 @@ function showModal(resultado, linhas) {
                                 listaCategoria()
                                 function listaCategoria(){
                                     var categoryList = document.querySelectorAll("[for='request-type-select']")[0].parentElement.parentElement.children[1].children[indexCategoryList].children[0].children[0].children[1].children[0]
-                                    if(valoresColunaF[0].includes(categoryList.textContent)){
+                                    if(categoryList.textContent.includes(valoresColunaF[0])){
                                     console.log("O valor da coluna F é true")
                                     categoryList.click()
                                     } else {
@@ -140,7 +140,24 @@ function showModal(resultado, linhas) {
                                         indexCategoryList++
                                         listaCategoria()
                                     }
-                                }
+                                };
+                                setTimeout(()=>{
+                                    // Na coluna D da planilha que tem o título "Assunto" setar o mesmo da planilha no script
+                                    let textAssunto = "Testando"
+                                    let elementAssunto = document.querySelector('#pf-undefined-tl-1')
+                                    // Adicionar manipulador de evento para manter o atributo
+                                    elementAssunto.addEventListener('blur', (e) => {
+                                        e.preventDefault(); // Previne o comportamento padrão de remoção do atributo
+                                        elementAssunto.setAttribute('data-focus-visible-added', '');
+                                    });
+                                    setTimeout(()=>{
+                                    elementAssunto.setAttribute('value', textAssunto);
+                                    elementAssunto.value = textAssunto
+                                    },2000)
+
+                                    // Nesse script abaixo, manter como está
+                                    document.querySelector('#ak-editor-textarea').textContent = 'Ola'
+                                },5000)
                             },2000)
                         },2000)
                     },1000)
