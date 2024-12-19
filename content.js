@@ -111,13 +111,20 @@ function showModal(resultado, linhas) {
 
                     // Armazena o valor da coluna G junto com o número escolhido
                     const valoresColunaG = [];
-                    valoresColunaG.push(`${numeroEscolhido} - ${colunas[6]}`);
+                    valoresColunaG.push(`${colunas[6]}`);
                     setTimeout(()=>{
                         // Acionar o clique para tela inicial
                         document.querySelectorAll("[aria-current='page']")[0].click();
                         setTimeout(()=>{
                     console.log("Valor da Coluna G: ", valoresColunaG);
-                    },5000)
+                    if(valoresColunaG[0].includes("Incidente")){
+                        console.log("Script inicia como incidente")
+                        document.querySelectorAll("[data-test-id='request-group:Estou com problema ou dificuldade']")[0].click()
+                    }else if (valoresColunaG[0].includes("Requisição")){
+                        console.log("Script inicia como requisição")
+                        document.querySelectorAll("[data-test-id='request-group:Estou com uma dúvida ou preciso fazer uma solicitação']")[0].click()
+                    }
+                    },2000)
                 },1000)
                 } else {
                     console.log("Número inválido.");
