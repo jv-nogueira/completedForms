@@ -114,6 +114,8 @@ function showModal(resultado, linhas) {
                     valoresColunaG.push(`${colunas[6]}`);
                     const valoresColunaF = [];
                     valoresColunaF.push(`${colunas[5]}`);
+                    const valoresColunaD = [];
+                    valoresColunaD.push(`${colunas[3]}`);
                     setTimeout(()=>{
                         // Acionar o clique para tela inicial
                         document.querySelectorAll("[aria-label='Trilhas']")[0].children[0].children[1].children[0].click()
@@ -143,7 +145,6 @@ function showModal(resultado, linhas) {
                                 };
                                 setTimeout(()=>{
                                     // Na coluna D da planilha que tem o título "Assunto" setar o mesmo da planilha no script
-                                    let textAssunto = "Testando"
                                     let elementAssunto = document.querySelector('#pf-undefined-tl-1')
                                     // Adicionar manipulador de evento para manter o atributo
                                     elementAssunto.addEventListener('blur', (e) => {
@@ -151,13 +152,13 @@ function showModal(resultado, linhas) {
                                         elementAssunto.setAttribute('data-focus-visible-added', '');
                                     });
                                     setTimeout(()=>{
-                                    elementAssunto.setAttribute('value', textAssunto);
-                                    elementAssunto.value = textAssunto
+                                    elementAssunto.setAttribute('value', valoresColunaD[0]);
+                                    elementAssunto.value = valoresColunaD[0]
                                     },2000)
 
                                     // Nesse script abaixo, manter como está
-                                    document.querySelector('#ak-editor-textarea').textContent = 'Ola'
-                                },5000)
+                                    document.querySelector('#ak-editor-textarea').textContent = 'Prezados, colaborador(a) entra em contato por telefone e solicita'
+                                },3000)
                             },2000)
                         },2000)
                     },1000)
