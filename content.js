@@ -109,23 +109,41 @@ function showModal(resultado, linhas) {
                     // Pega o valor da linha escolhida e da coluna G (índice 6)
                     const colunas = linhas[numeroEscolhido].split(',');
 
-                    // Armazena o valor da coluna G junto com o número escolhido
+                    // Armazena os valores das colunas da planilha 
                     const valoresColunaG = [];
                     valoresColunaG.push(`${colunas[6]}`);
+                    const valoresColunaF = [];
+                    valoresColunaF.push(`${colunas[5]}`);
                     setTimeout(()=>{
                         // Acionar o clique para tela inicial
-                        document.querySelectorAll("[aria-current='page']")[0].click();
+                        document.querySelectorAll("[aria-label='Trilhas']")[0].children[0].children[1].children[0].click()
                         setTimeout(()=>{
-                    console.log("Valor da Coluna G: ", valoresColunaG);
-                    if(valoresColunaG[0].includes("Incidente")){
-                        console.log("Script inicia como incidente")
-                        document.querySelectorAll("[data-test-id='request-group:Estou com problema ou dificuldade']")[0].click()
-                    }else if (valoresColunaG[0].includes("Requisição")){
-                        console.log("Script inicia como requisição")
-                        document.querySelectorAll("[data-test-id='request-group:Estou com uma dúvida ou preciso fazer uma solicitação']")[0].click()
-                    }
-                    },2000)
-                },1000)
+                            console.log("Valor da Coluna G: ", valoresColunaG);
+                            if(valoresColunaG[0].includes("Incidente")){
+                                console.log("Script inicia como incidente")
+                                document.querySelectorAll("[data-test-id='request-group:Estou com problema ou dificuldade']")[0].click()
+                            }else if (valoresColunaG[0].includes("Requisição")){
+                                console.log("Script inicia como requisição")
+                                document.querySelectorAll("[data-test-id='request-group:Estou com uma dúvida ou preciso fazer uma solicitação']")[0].click()
+                            };
+                            setTimeout(()=>{
+                                console.log("Valor da Coluna F: ", valoresColunaF);
+                                var indexCategoryList = 0
+                                listaCategoria()
+                                function listaCategoria(){
+                                    var categoryList = document.querySelectorAll("[for='request-type-select']")[0].parentElement.parentElement.children[1].children[indexCategoryList].children[0].children[0].children[1].children[0]
+                                    if(valoresColunaF[0].includes(categoryList.textContent)){
+                                    console.log("O valor da coluna F é true")
+                                    categoryList.click()
+                                    } else {
+                                        console.log("O valor da linha da coluna F é falso")
+                                        indexCategoryList++
+                                        listaCategoria()
+                                    }
+                                }
+                            },2000)
+                        },2000)
+                    },1000)
                 } else {
                     console.log("Número inválido.");
                 }
