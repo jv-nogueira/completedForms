@@ -1,0 +1,47 @@
+/* Estilos para a modal */
+#modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo escurecido */
+}
+
+/* Estilos para o conteúdo da modal */
+#modal .modal-content {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80vw;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+/* Estilos para o input box */
+#modal .modal-content input[type="text"] {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+}
+
+/* Estilos para o botão de fechar */
+#modal .modal-content button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

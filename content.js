@@ -55,48 +55,41 @@ document.addEventListener("keydown", function(event) {
     }
 });
 
+// Função para carregar o CSS dinamicamente
+function loadCSS() {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = chrome.runtime.getURL('modal.css');
+    document.head.appendChild(link);
+}
+
 // Função para criar e exibir a modal
 function showModal(resultado, linhas) {
+    loadCSS(); // Carregar o CSS dinamicamente
+
     // Criar elementos da modal
     const modal = document.createElement('div');
     modal.setAttribute('id', 'modal');
-    modal.style.position = 'fixed';
-    modal.style.top = '0';
-    modal.style.left = '0';
-    modal.style.width = '100vw';
-    modal.style.height = '100vh';
-    modal.style.display = 'flex';
-    modal.style.justifyContent = 'center';
-    modal.style.alignItems = 'center';
-    modal.style.zIndex = '9999';
-    modal.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'; // Fundo escurecido
 
     const modalContent = document.createElement('div');
-    modalContent.style.backgroundColor = 'white'; // Fundo branco do painel
-    modalContent.style.color = 'black'; // Texto preto
-    modalContent.style.padding = '20px';
-    modalContent.style.borderRadius = '10px';
-    modalContent.style.width = '80vw';
-    modalContent.style.maxHeight = '80vh';
-    modalContent.style.overflowY = 'auto';
+    modalContent.classList.add('modal-content'); // Adiciona a classe para aplicar o estilo
 
     // Criar a caixa de texto
     const inputBox = document.createElement('input');
     inputBox.type = 'text';
     inputBox.placeholder = 'Digite o número da opção e dê Enter';
-    inputBox.style.display = 'block';
-    inputBox.style.width = '100%';
-    inputBox.style.marginBottom = '10px';
-    inputBox.style.padding = '10px';
-    inputBox.style.border = '1px solid #ccc';
-    inputBox.style.borderRadius = '5px';
-    inputBox.style.backgroundColor = 'white';
-    inputBox.style.color = 'black';
+
+    // Criar o botão de fechar
+    const closeButton = document.createElement('button');
+    closeButton.innerText = 'Fechar';
+    closeButton.addEventListener('click', function() {
+        document.body.removeChild(modal);
+    });
 
     // Aguardar o modal ser carregado antes de focar no inputBox
     setTimeout(() => {
         inputBox.focus();
-    }, 0); // Definir um timeout de 0 para garantir que o foco ocorra após a criação da modal
+    }, 1); // Definir um timeout de 0 para garantir que o foco ocorra após a criação da modal
 
     inputBox.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
@@ -116,6 +109,7 @@ function showModal(resultado, linhas) {
                     valoresColunaF.push(`${colunas[5]}`);
                     const valoresColunaD = [];
                     valoresColunaD.push(`${colunas[3]}`);
+
                     setTimeout(()=>{
                         // Acionar o clique para tela inicial
                         document.querySelectorAll("[aria-label='Trilhas']")[0].children[0].children[1].children[0].click()
@@ -153,7 +147,8 @@ function showModal(resultado, linhas) {
                                     });
                                     setTimeout(()=>{
                                     elementAssunto.setAttribute('value', valoresColunaD[0]);
-                                    elementAssunto.value = valoresColunaD[0]
+                                    // Assunto da planilha
+                                    elementAssunto.value = valoresColunaD[0]+" " 
                                     },2000)
 
                                     // Nesse script abaixo, manter como está
@@ -171,22 +166,6 @@ function showModal(resultado, linhas) {
 
     modalContent.innerHTML = `<pre>${resultado}</pre>`;
     modalContent.insertBefore(inputBox, modalContent.firstChild);
-
-    // Criar o botão de fechar
-    const closeButton = document.createElement('button');
-    closeButton.innerText = 'Fechar';
-    closeButton.style.marginTop = '10px';
-    closeButton.style.padding = '10px';
-    closeButton.style.backgroundColor = '#f44336';
-    closeButton.style.color = 'white';
-    closeButton.style.border = 'none';
-    closeButton.style.borderRadius = '5px';
-    closeButton.style.cursor = 'pointer';
-
-    closeButton.addEventListener('click', function() {
-        document.body.removeChild(modal);
-    });
-
     modalContent.appendChild(closeButton);
     modal.appendChild(modalContent);
 
