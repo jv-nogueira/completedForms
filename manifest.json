@@ -1,0 +1,18 @@
+{
+    "manifest_version": 3,
+    "name": "Abrir Pop-up com F2",
+    "version": "1.0",
+    "description": "Abre um pop-up ao pressionar F2",
+    "permissions": ["activeTab"],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "action": {
+      "default_popup": "popup.html"
+    },
+    "host_permissions": [
+      "http://*/*",
+      "https://*/*"
+    ]
+  }
+  
