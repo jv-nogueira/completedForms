@@ -1,5 +1,3 @@
-
-
 document.addEventListener("keydown", function(event) {
     if (event.keyCode === 113) { // F2 para iniciar
         console.log("F2 pressionado, numerando as linhas da coluna D...");
@@ -7,49 +5,82 @@ document.addEventListener("keydown", function(event) {
         const planilhaUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRA1YNzHggx374b2qLpbtPvOxpHLn_B3JVB2yKj413BI1FIjWslKCiOWnTDpT30kTRpXANPhKkOUV2e/pub?output=csv';
 
         fetch(planilhaUrl)
-            .then(response => response.text())
+            .then(response => {
+                return response.text();
+            })
             .then(data => {
-                // Dividir o CSV em linhas
+                console.log("Dados CSV recebidos:", data);
                 const linhas = data.split('\n');
+                console.log("Linhas do CSV divididas:", linhas);
 
-                // Usar a primeira linha (índice 0) como título da coluna D
                 const colunasPrimeiraLinha = linhas[0].split(',');
-                let resultado = `${colunasPrimeiraLinha[3]}\n\n`;
+                console.log("Primeira linha do CSV (títulos):", colunasPrimeiraLinha);
 
-                // Numerar as linhas da coluna D
                 const valoresColunaD = [];
                 linhas.forEach((linha, index) => {
-                    if (index > 0) { // Ignorar a primeira linha (título)
+                    if (index > 0) {
                         const colunas = linha.split(',');
                         valoresColunaD.push(`${index} - ${colunas[3]}`);
                     }
                 });
+                console.log("Valores da coluna D com numeração:", valoresColunaD);
 
-                // Determinar o tamanho máximo de cada item para ajustar as colunas
-                const tamanhoMaximo = Math.max(...valoresColunaD.map(item => item.length));
-                const numeroDeColunas = Math.ceil(valoresColunaD.length / 15);
-                const colunasFormatadas = Array.from({ length: numeroDeColunas }, () => []);
+                function formatarResultado(filtro = '') {
+                    console.log("Formatando resultado com filtro:", filtro);
+                    let resultadoFiltrado = `${colunasPrimeiraLinha[3]}\n\n`;
+                    const valoresFiltrados = valoresColunaD.filter(item => item.toLowerCase().includes(filtro.toLowerCase()));
+                    console.log("Valores filtrados:", valoresFiltrados);
 
-                valoresColunaD.forEach((valor, index) => {
-                    const colunaIndex = Math.floor(index / 15);
-                    colunasFormatadas[colunaIndex].push(valor.padEnd(tamanhoMaximo, ' '));
-                });
+                    const tamanhoMaximoFiltrado = Math.max(...valoresFiltrados.map(item => item.length));
+                    console.log("Tamanho máximo dos valores filtrados:", tamanhoMaximoFiltrado);
 
-                // Formatar o resultado em linhas com colunas
-                for (let i = 0; i < 20; i++) {
-                    let linha = '';
-                    colunasFormatadas.forEach(coluna => {
-                        if (coluna[i]) {
-                            linha += coluna[i] + '\t';
-                        }
+                    const numeroDeColunasFiltradas = Math.ceil(valoresFiltrados.length / 15);
+                    console.log("Número de colunas filtradas:", numeroDeColunasFiltradas);
+
+                    const colunasFormatadasFiltradas = Array.from({ length: numeroDeColunasFiltradas }, () => []);
+                    valoresFiltrados.forEach((valor, index) => {
+                        const colunaIndex = Math.floor(index / 15);
+                        colunasFormatadasFiltradas[colunaIndex].push(valor.padEnd(tamanhoMaximoFiltrado, ' '));
                     });
-                    if (linha.trim()) {
-                        resultado += linha.trim() + '\n';
+
+                    console.log("Colunas formatadas filtradas:", colunasFormatadasFiltradas);
+
+                    for (let i = 0; i < 20; i++) {
+                        let linha = '';
+                        colunasFormatadasFiltradas.forEach(coluna => {
+                            if (coluna[i]) {
+                                linha += coluna[i] + '\t';
+                            }
+                        });
+                        if (linha.trim()) {
+                            resultadoFiltrado += linha.trim() + '\n';
+                        }
                     }
+                    console.log("Resultado final formatado:", resultadoFiltrado);
+                    return resultadoFiltrado;
                 }
 
-                // Criar e exibir a modal
-                showModal(resultado, linhas);
+                // Verificar se a modal já existe
+                let modal = document.querySelector('#modal');
+                console.log("Modal existente verificada:", modal);
+                if (!modal) {
+                    showModal(formatarResultado(), linhas);
+                    console.log("Nova modal criada.");
+                }
+
+                const inputBox = document.querySelector('#inputBox');
+                console.log("InputBox selecionado:", inputBox);
+                inputBox.addEventListener('input', function() {
+                    const filtro = inputBox.value;
+                    console.log("Valor do filtro digitado na inputBox:", filtro);
+
+                    // Atualizar a modal existente com o novo filtro
+                    const modal = document.querySelector('#modal');
+                    console.log("Modal encontrada para atualização:", modal);
+                    const modalContent = modal.querySelector('.modal-content pre');
+                    modalContent.innerHTML = formatarResultado(filtro);
+                    console.log("Modal atualizada com novos resultados.");
+                });
             })
             .catch(error => {
                 console.error("Erro ao processar a planilha:", error);
@@ -57,7 +88,6 @@ document.addEventListener("keydown", function(event) {
     }
 });
 
-// Função para carregar o CSS dinamicamente
 function loadCSS() {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
@@ -65,37 +95,35 @@ function loadCSS() {
     document.head.appendChild(link);
 }
 
-// Função para criar e exibir a modal
 function showModal(resultado, linhas) {
-    loadCSS(); // Carregar o CSS dinamicamente
+    console.log("Criando modal com resultado:", resultado);
+    loadCSS();
 
-    // Criar elementos da modal
     const modal = document.createElement('div');
     modal.setAttribute('id', 'modal');
 
     const modalContent = document.createElement('div');
-    modalContent.classList.add('modal-content'); // Adiciona a classe para aplicar o estilo
+    modalContent.classList.add('modal-content');
 
-    // Criar a caixa de texto
     const inputBox = document.createElement('input');
     inputBox.type = 'text';
+    inputBox.id = 'inputBox';
     inputBox.placeholder = 'Digite o número da opção e dê Enter';
 
-    // Criar o botão de fechar
     const closeButton = document.createElement('button');
     closeButton.innerText = 'Fechar';
     closeButton.addEventListener('click', function() {
         document.body.removeChild(modal);
     });
 
-    // Aguardar o modal ser carregado antes de focar no inputBox
     setTimeout(() => {
         inputBox.focus();
-    }, 1); // Definir um timeout de 0 para garantir que o foco ocorra após a criação da modal
+    }, 1);
 
     inputBox.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
-            // Chamar a função para processar a seleção
+            console.log("Enter pressionado.");
+            console.log("Processando seleção com base na linha:", linhas[inputBox.value]);
             processarSelecao(inputBox.value, linhas);
         }
     });
@@ -104,7 +132,8 @@ function showModal(resultado, linhas) {
     modalContent.insertBefore(inputBox, modalContent.firstChild);
     modalContent.appendChild(closeButton);
     modal.appendChild(modalContent);
+    console.log("Conteúdo adicionado à modal.");
 
-    // Adicionar a modal à página
     document.body.appendChild(modal);
+    console.log("Modal adicionada ao body.");
 }

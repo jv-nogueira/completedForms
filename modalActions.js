@@ -1,6 +1,7 @@
  function processarSelecao(inputBoxValue, linhas) {
     // Verificar se o valor digitado é um número
     const numeroEscolhido = parseInt(inputBoxValue.trim(), 10);
+    console.log("Numero escolhido: "+numeroEscolhido)
     if (!isNaN(numeroEscolhido)) {
         // Verificar se o número escolhido é válido
         if (numeroEscolhido > 0 && numeroEscolhido < linhas.length) {
@@ -8,6 +9,7 @@
 
             // Pega o valor da linha escolhida e da coluna G (índice 6)
             const colunas = linhas[numeroEscolhido].split(',');
+            console.log("var colunas "+colunas)
 
             // Armazena os valores das colunas da planilha
             const valoresColunaG = [colunas[6]];
