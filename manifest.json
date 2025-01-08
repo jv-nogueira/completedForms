@@ -3,7 +3,9 @@
     "name": "Preenche campos automaticamente",
     "version": "0.1",
     "permissions": ["activeTab"],
-  
+    "icons": { 
+      "48": "icons/operation.png"
+    },
     "content_scripts": [
       {
         "matches": ["<all_urls>"],

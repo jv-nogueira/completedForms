@@ -59,10 +59,13 @@
                                 elementAssunto.setAttribute('value', valoresColunaD[0]);
                                 // Assunto da planilha
                                 elementAssunto.value = valoresColunaD[0] + " ";
-                            }, 2000);
+                            }, 1000);
 
-                            // Nesse script abaixo, manter como está
-                            document.querySelector('#ak-editor-textarea').textContent = 'Prezados, colaborador(a) entra em contato por telefone e solicita';
+                            if (valoresColunaG[0].includes("Incidente")) {
+                                document.querySelector('#ak-editor-textarea').textContent = 'Prezados, colaborador(a) entra em contato por telefone e relata';
+                            } else if (valoresColunaG[0].includes("Requisição")) {
+                                document.querySelector('#ak-editor-textarea').textContent = 'Prezados, colaborador(a) entra em contato por telefone e solicita';
+                            }
                         }, 3000);
                     }, 2000);
                 }, 2000);
