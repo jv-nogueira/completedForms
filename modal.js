@@ -108,6 +108,7 @@ function showModal(resultado, linhas) {
     const inputBox = document.createElement('input');
     inputBox.type = 'text';
     inputBox.id = 'inputBox';
+    inputBox.autocomplete = 'off';
     inputBox.placeholder = 'Digite o número da opção e dê Enter';
 
     const closeButton = document.createElement('button');

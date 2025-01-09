@@ -48,19 +48,16 @@
                         }
 
                         setTimeout(() => {
-                            // Na coluna D da planilha que tem o título "Assunto" setar o mesmo da planilha no script
-                            let elementAssunto = document.querySelector('#pf-undefined-tl-1');
-                            elementAssunto.addEventListener('blur', (e) => {
-                                e.preventDefault(); // Previne o comportamento padrão de remoção do atributo
-                                elementAssunto.setAttribute('data-focus-visible-added', '');
-                            });
-
+                            try{
                             setTimeout(() => {
-                                elementAssunto.setAttribute('value', valoresColunaD[0]);
+                                // Na coluna D da planilha que tem o título "Assunto" setar o mesmo da planilha no script
+                                let elementAssunto = document.querySelector("[title='long text']");
                                 // Assunto da planilha
                                 elementAssunto.value = valoresColunaD[0] + " ";
                             }, 1000);
-
+                        } catch {
+                            console.log("Assunto falhou")
+                        }
                             if (valoresColunaG[0].includes("Incidente")) {
                                 document.querySelector('#ak-editor-textarea').textContent = 'Prezados, colaborador(a) entra em contato por telefone e relata';
                             } else if (valoresColunaG[0].includes("Requisição")) {
