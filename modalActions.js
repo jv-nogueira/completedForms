@@ -51,18 +51,56 @@
                             try{
                             setTimeout(() => {
                                 // Na coluna D da planilha que tem o título "Assunto" setar o mesmo da planilha no script
-                                let elementAssunto = document.querySelector("[title='long text']");
+                                let elementAssunto = document.querySelectorAll("[title='long text']")[0];
                                 // Assunto da planilha
                                 elementAssunto.value = valoresColunaD[0] + " ";
                             }, 1000);
-                        } catch {
-                            console.log("Assunto falhou")
-                        }
+                            } catch {
+                                console.log("Assunto falhou")
+                            }
+                            try{
+                                // Telefone
+                                setTimeout(() => {document.querySelectorAll("[title='long text']")[1].value = "0 "}, 1000);
+                            }catch{
+                                console.log("Não tem telefone")
+                            }
+                            try{
+                                // Patrimonio
+                                setTimeout(() => {document.querySelectorAll("[title='short text']")[0].value = 'nao perguntado '}, 1000);
+                            }catch{
+                            console.log("Não tem patrimonio")
+                            }
+                            try{
+                                // Está focando na input do relator e fechando as outras inputs
+                                /*
+                                setTimeout(() => {
+                                const elemento = document.querySelector("[aria-label='clear']").parentElement;
+                                if (elemento) {
+                                    const evento = new MouseEvent('mousedown', {
+                                        bubbles: true,
+                                        cancelable: true,
+                                        view: window
+                                    });
+                                    elemento.dispatchEvent(evento); // Dispara o evento
+                                    console.log('Evento pointerdown simulado no elemento:', elemento);
+                                } else {
+                                    console.error('Elemento não encontrado!');
+                                }
+                                }, 1000);
+                                */
+                            } catch{
+                                console.log("Falhou ao clicar para tirar o relator")
+                            }
+                            // Descrição
                             if (valoresColunaG[0].includes("Incidente")) {
+                                // .value não funciona
                                 document.querySelector('#ak-editor-textarea').textContent = 'Prezados, colaborador(a) entra em contato por telefone e relata';
                             } else if (valoresColunaG[0].includes("Requisição")) {
+                                // .value não funciona
                                 document.querySelector('#ak-editor-textarea').textContent = 'Prezados, colaborador(a) entra em contato por telefone e solicita';
                             }
+
+
                         }, 3000);
                     }, 2000);
                 }, 2000);
