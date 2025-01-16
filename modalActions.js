@@ -60,37 +60,17 @@
                             }
                             try{
                                 // Telefone
-                                setTimeout(() => {document.querySelectorAll("[title='long text']")[1].value = "0 "}, 1000);
+                                //setTimeout(() => {document.querySelectorAll("[title='long text']")[1].value = "0 "}, 1000);
                             }catch{
                                 console.log("Não tem telefone")
                             }
                             try{
                                 // Patrimonio
-                                setTimeout(() => {document.querySelectorAll("[title='short text']")[0].value = 'nao perguntado '}, 1000);
+                                //setTimeout(() => {document.querySelectorAll("[title='short text']")[0].value = 'nao perguntado '}, 1000);
                             }catch{
                             console.log("Não tem patrimonio")
                             }
-                            try{
-                                // Está focando na input do relator e fechando as outras inputs
-                                /*
-                                setTimeout(() => {
-                                const elemento = document.querySelector("[aria-label='clear']").parentElement;
-                                if (elemento) {
-                                    const evento = new MouseEvent('mousedown', {
-                                        bubbles: true,
-                                        cancelable: true,
-                                        view: window
-                                    });
-                                    elemento.dispatchEvent(evento); // Dispara o evento
-                                    console.log('Evento pointerdown simulado no elemento:', elemento);
-                                } else {
-                                    console.error('Elemento não encontrado!');
-                                }
-                                }, 1000);
-                                */
-                            } catch{
-                                console.log("Falhou ao clicar para tirar o relator")
-                            }
+                            
                             // Descrição
                             if (valoresColunaG[0].includes("Incidente")) {
                                 // .value não funciona
@@ -98,6 +78,45 @@
                             } else if (valoresColunaG[0].includes("Requisição")) {
                                 // .value não funciona
                                 document.querySelector('#ak-editor-textarea').textContent = 'Prezados, colaborador(a) entra em contato por telefone e solicita';
+                            }
+
+                            try{
+                                var startWork = [...document.querySelectorAll("[id='main']")[0].querySelectorAll("span")].find(el => el.textContent.includes("Hora de Início do trabalho*")).parentElement.parentElement.parentElement.children[1].children[0].children[2].children[0]
+
+                                startWork.scrollIntoView()
+
+                                startWork.dispatchEvent(
+                                    new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, which: 40, bubbles: true })
+                                  );
+                                setTimeout(() => {
+                                    startWork.dispatchEvent(
+                                        new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true })
+                                    );
+                                    
+                                },1000)                                  
+                            }catch{
+                                console.log("Erro ao setar horario de inicio")
+                            }
+
+                            try {
+                                var endWork = [...document.querySelectorAll("[id='main']")[0].querySelectorAll("span")].find(el => el.textContent.includes("Hora de Fim do trabalho*")).parentElement.parentElement.parentElement.children[1].children[0].children[2].children[0]
+
+                                endWork.scrollIntoView()
+
+                                endWork.dispatchEvent(
+                                    new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, which: 40, bubbles: true })
+                                  );
+                                endWork.dispatchEvent(
+                                new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, which: 40, bubbles: true })
+                                );
+                                setTimeout(() => {
+                                    endWork.dispatchEvent(
+                                        new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true })
+                                    );
+                                    
+                                },1000)         
+                            } catch {
+                                console.log("Erro ao setar horario de fim")
                             }
 
 
