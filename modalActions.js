@@ -88,6 +88,24 @@
                                 } catch {
                                     console.log("Erro ao setar horario de fim")
                                 }
+
+                                try{
+                                    let local = [...document.querySelectorAll("[id='main']")[0].querySelectorAll("span")].find(el => el.textContent.includes("Selecione o local")).parentElement.parentElement.parentElement.children[2].children[0].children[2].children[0]
+
+                                    local.dispatchEvent(
+                                        new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, which: 40, bubbles: true })
+                                      );
+                                    local.dispatchEvent(
+                                        new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, which: 40, bubbles: true })
+                                    );
+                                    setTimeout(() => {
+                                        local.dispatchEvent(
+                                            new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true })
+                                        );   
+                                    },1000)  
+                                }catch{
+                                    console.log("Erro ao setar unidade")
+                                }
                                 setTimeout(() => {
                                     // Descrição
                                     if (valoresColunaG[0].includes("Incidente")) {

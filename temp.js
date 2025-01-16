@@ -1,13 +1,6 @@
-
-// Na coluna D da planilha que tem o título "Assunto" setar o mesmo da planilha no script
-document.querySelector('#pf-undefined-tl-1').value = 'Ola'
-
-// Nesse script abaixo, manter como está
-document.querySelector('#ak-editor-textarea').value = 'Ola'
-
+// Tirar o relator
+// Problema: Está focando na input do relator e fechando as outras inputs
 try{
-    // Está focando na input do relator e fechando as outras inputs
-    
     setTimeout(() => {
     const elemento = document.querySelector("[aria-label='clear']").parentElement;
     if (elemento) {
@@ -27,15 +20,25 @@ try{
     console.log("Falhou ao clicar para tirar o relator")
 }
 
+// Telefone
 try{
-    // Telefone
-    //setTimeout(() => {document.querySelectorAll("[title='long text']")[1].value = "0 "}, 1000);
+    setTimeout(() => {document.querySelectorAll("[title='long text']")[1].value = "0 "}, 1000);
 }catch{
     console.log("Não tem telefone")
 }
+
+// Patrimonio
 try{
-    // Patrimonio
-    //setTimeout(() => {document.querySelectorAll("[title='short text']")[0].value = 'nao perguntado '}, 1000);
+    setTimeout(() => {document.querySelectorAll("[title='short text']")[0].value = 'nao perguntado '}, 1000);
 }catch{
 console.log("Não tem patrimonio")
 }
+
+// Causa impacto financeiro?
+[...document.querySelectorAll("[id='main']")[0].querySelectorAll("span")].find(el => el.textContent.includes("Causa impacto financeiro*")).parentElement.parentElement.parentElement.children[1].children[0].children[0].children[0].children[3].click()
+
+// Há processo alternativo?
+[...document.querySelectorAll("[id='main']")[0].querySelectorAll("span")].find(el => el.textContent.includes("Há processo alternativo*")).parentElement.parentElement.parentElement.children[1].children[0].children[0].children[0].children[1].click()
+
+// Este problema afeta mais de um usuário?
+[...document.querySelectorAll("[id='main']")[0].querySelectorAll("span")].find(el => el.textContent.includes("Este problema afeta mais de um usuário*")).parentElement.parentElement.parentElement.children[1].children[0].children[0].children[0].children[1].click()
