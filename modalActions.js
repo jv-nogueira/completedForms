@@ -50,84 +50,136 @@
                         setTimeout(() => {
                             // Inicia de baixo para cima
                             setTimeout(() => {
-                                try{
-                                    var startWork = [...document.querySelectorAll("[id='main']")[0].querySelectorAll("span")].find(el => el.textContent.includes("Hora de Início do trabalho*")).parentElement.parentElement.parentElement.children[1].children[0].children[2].children[0]
-    
-                                    startWork.scrollIntoView()
-    
-                                    startWork.dispatchEvent(
-                                        new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, which: 40, bubbles: true })
-                                      );
-                                    setTimeout(() => {
+                                try{    
+                                    // Remover o relator 
+                                    const elemento = document.querySelector("[aria-label='clear']").parentElement;
+                                    if (elemento) {
+                                        const evento = new MouseEvent('mousedown', {
+                                            bubbles: true,
+                                            cancelable: true,
+                                            view: window
+                                        });
+                                        elemento.dispatchEvent(evento); // Dispara o evento
+                                        console.log('Evento pointerdown simulado no elemento:', elemento);
+                                    } else {
+                                        console.error('Elemento não encontrado!');
+                                    }          
+                                } catch{
+                                    console.log("Falhou ao clicar para tirar o relator")
+                                }   
+                                setTimeout(() => {                             
+                                    try {
+                                        // Sem impacto financeiro
+                                        [...document.querySelectorAll("[id='main']")[0].querySelectorAll("span")]
+                                        .find(el => el.textContent.includes("Causa impacto financeiro*"))
+                                        .parentElement.parentElement.parentElement.children[1]
+                                        .children[0].children[0].children[0].children[3].click();
+                                    
+                                        //Não
+                                        [...document.querySelectorAll("[id='main']")[0].querySelectorAll("span")]
+                                        .find(el => el.textContent.includes("Há processo alternativo*"))
+                                        .parentElement.parentElement.parentElement.children[1]
+                                        .children[0].children[0].children[0].children[1].click();
+                                    
+                                        //Não
+                                        [...document.querySelectorAll("[id='main']")[0].querySelectorAll("span")]
+                                        .find(el => el.textContent.includes("Este problema afeta mais de um usuário*"))
+                                        .parentElement.parentElement.parentElement.children[1]
+                                        .children[0].children[0].children[0].children[1].click();
+                                    }catch{
+                                        console.log("Erro ao selecionar a radio do SAP")
+                                    }
+                                    try{
+                                        // Dropbox de inicio de trabalho
+                                        var startWork = [...document.querySelectorAll("[id='main']")[0].querySelectorAll("span")].find(el => el.textContent.includes("Hora de Início do trabalho*")).parentElement.parentElement.parentElement.children[1].children[0].children[2].children[0]
+        
+                                        startWork.scrollIntoView()
+        
                                         startWork.dispatchEvent(
-                                            new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true })
+                                            new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, which: 40, bubbles: true })
                                         );
-                                        
-                                    },1000)                                  
-                                }catch{
-                                    console.log("Erro ao setar horario de inicio")
-                                }
-    
-                                try {
-                                    var endWork = [...document.querySelectorAll("[id='main']")[0].querySelectorAll("span")].find(el => el.textContent.includes("Hora de Fim do trabalho*")).parentElement.parentElement.parentElement.children[1].children[0].children[2].children[0]
-    
-                                    endWork.scrollIntoView()
-    
-                                    endWork.dispatchEvent(
-                                        new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, which: 40, bubbles: true })
-                                      );
-                                    endWork.dispatchEvent(
-                                    new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, which: 40, bubbles: true })
-                                    );
-                                    setTimeout(() => {
+                                        setTimeout(() => {
+                                            startWork.dispatchEvent(
+                                                new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true })
+                                            );
+                                            
+                                        },1000)                                  
+                                    }catch{
+                                        console.log("Erro ao setar horario de inicio")
+                                    }
+                                    try {
+                                        // Dropbox de fim de trabalho
+                                        var endWork = [...document.querySelectorAll("[id='main']")[0].querySelectorAll("span")].find(el => el.textContent.includes("Hora de Fim do trabalho*")).parentElement.parentElement.parentElement.children[1].children[0].children[2].children[0]
+        
+                                        endWork.scrollIntoView()
+        
                                         endWork.dispatchEvent(
-                                            new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true })
+                                            new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, which: 40, bubbles: true })
                                         );
-                                        
-                                    },1000)         
-                                } catch {
-                                    console.log("Erro ao setar horario de fim")
-                                }
-
-                                try{
-                                    let local = [...document.querySelectorAll("[id='main']")[0].querySelectorAll("span")].find(el => el.textContent.includes("Selecione o local")).parentElement.parentElement.parentElement.children[2].children[0].children[2].children[0]
-
-                                    local.dispatchEvent(
+                                        endWork.dispatchEvent(
                                         new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, which: 40, bubbles: true })
-                                      );
-                                    local.dispatchEvent(
-                                        new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, which: 40, bubbles: true })
-                                    );
-                                    setTimeout(() => {
+                                        );
+                                        setTimeout(() => {
+                                            endWork.dispatchEvent(
+                                                new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true })
+                                            );
+                                        },1000)         
+                                    } catch {
+                                        console.log("Erro ao setar horario de fim")
+                                    }
+                                    try{
+                                        // Dropbox de local unidade ou sede
+                                        let local = [...document.querySelectorAll("[id='main']")[0].querySelectorAll("span")].find(el => el.textContent.includes("Selecione o local")).parentElement.parentElement.parentElement.children[2].children[0].children[2].children[0]
+
                                         local.dispatchEvent(
-                                            new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true })
-                                        );   
-                                    },1000)  
-                                }catch{
-                                    console.log("Erro ao setar unidade")
-                                }
-                                setTimeout(() => {
-                                    // Descrição
-                                    if (valoresColunaG[0].includes("Incidente")) {
-                                        let description = document.querySelector('#ak-editor-textarea')
-                                        description.scrollIntoView()
-                                        // .value não funciona
-                                        description.textContent = 'Prezados, colaborador(a) entra em contato por telefone e relata';
-                                    } else if (valoresColunaG[0].includes("Requisição")) {
-                                        let description = document.querySelector('#ak-editor-textarea')
-                                        description.scrollIntoView()
-                                        // .value não funciona
-                                        description.textContent = 'Prezados, colaborador(a) entra em contato por telefone e solicita';
+                                            new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, which: 40, bubbles: true })
+                                        );
+                                        local.dispatchEvent(
+                                            new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, which: 40, bubbles: true })
+                                        );
+                                        setTimeout(() => {
+                                            local.dispatchEvent(
+                                                new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true })
+                                            );   
+                                        },1000)  
+                                    }catch{
+                                        console.log("Erro ao setar unidade")
                                     }
                                     setTimeout(() => {
-                                        try{
-                                            let elementAssunto = document.querySelectorAll("[title='long text']")[0];
-                                            elementAssunto.scrollIntoView()
-                                            // Assunto da planilha
-                                            elementAssunto.value = valoresColunaD[0] + " ";
-                                        } catch {
-                                            console.log("Assunto falhou")
+                                        // Descrição
+                                        if (valoresColunaG[0].includes("Incidente")) {
+                                            let description = document.querySelector('#ak-editor-textarea')
+                                            description.scrollIntoView()
+                                            // .value não funciona
+                                            description.textContent = 'Prezados, colaborador(a) entra em contato por telefone e relata';
+                                        } else if (valoresColunaG[0].includes("Requisição")) {
+                                            let description = document.querySelector('#ak-editor-textarea')
+                                            description.scrollIntoView()
+                                            // .value não funciona
+                                            description.textContent = 'Prezados, colaborador(a) entra em contato por telefone e solicita';
                                         }
+                                        // Telefone
+                                        try{
+                                            document.querySelectorAll("[title='long text']")[1].value = "0 "
+                                        }catch{
+                                            console.log("Não tem telefone")
+                                        }
+                                        // Patrimonio
+                                        try{
+                                            document.querySelectorAll("[title='short text']")[0].value = 'nao perguntado '
+                                        }catch{
+                                        console.log("Não tem patrimonio")
+                                        }
+                                        setTimeout(() => {
+                                            try{
+                                                let elementAssunto = document.querySelectorAll("[title='long text']")[0];
+                                                elementAssunto.scrollIntoView()
+                                                // Assunto da planilha
+                                                elementAssunto.value = valoresColunaD[0] + " ";
+                                            } catch {
+                                                console.log("Assunto falhou")
+                                            }
+                                        },1000)
                                     },1000)
                                 },1000)
                             },1000)
