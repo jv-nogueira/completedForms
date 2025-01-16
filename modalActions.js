@@ -46,80 +46,73 @@
                                 listaCategoria();
                             }
                         }
-
+                        // Aguarda a página carregar
                         setTimeout(() => {
-                            try{
+                            // Inicia de baixo para cima
                             setTimeout(() => {
-                                // Na coluna D da planilha que tem o título "Assunto" setar o mesmo da planilha no script
-                                let elementAssunto = document.querySelectorAll("[title='long text']")[0];
-                                // Assunto da planilha
-                                elementAssunto.value = valoresColunaD[0] + " ";
-                            }, 1000);
-                            } catch {
-                                console.log("Assunto falhou")
-                            }
-                            try{
-                                // Telefone
-                                //setTimeout(() => {document.querySelectorAll("[title='long text']")[1].value = "0 "}, 1000);
-                            }catch{
-                                console.log("Não tem telefone")
-                            }
-                            try{
-                                // Patrimonio
-                                //setTimeout(() => {document.querySelectorAll("[title='short text']")[0].value = 'nao perguntado '}, 1000);
-                            }catch{
-                            console.log("Não tem patrimonio")
-                            }
-                            
-                            // Descrição
-                            if (valoresColunaG[0].includes("Incidente")) {
-                                // .value não funciona
-                                document.querySelector('#ak-editor-textarea').textContent = 'Prezados, colaborador(a) entra em contato por telefone e relata';
-                            } else if (valoresColunaG[0].includes("Requisição")) {
-                                // .value não funciona
-                                document.querySelector('#ak-editor-textarea').textContent = 'Prezados, colaborador(a) entra em contato por telefone e solicita';
-                            }
-
-                            try{
-                                var startWork = [...document.querySelectorAll("[id='main']")[0].querySelectorAll("span")].find(el => el.textContent.includes("Hora de Início do trabalho*")).parentElement.parentElement.parentElement.children[1].children[0].children[2].children[0]
-
-                                startWork.scrollIntoView()
-
-                                startWork.dispatchEvent(
-                                    new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, which: 40, bubbles: true })
-                                  );
-                                setTimeout(() => {
+                                try{
+                                    var startWork = [...document.querySelectorAll("[id='main']")[0].querySelectorAll("span")].find(el => el.textContent.includes("Hora de Início do trabalho*")).parentElement.parentElement.parentElement.children[1].children[0].children[2].children[0]
+    
+                                    startWork.scrollIntoView()
+    
                                     startWork.dispatchEvent(
-                                        new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true })
-                                    );
-                                    
-                                },1000)                                  
-                            }catch{
-                                console.log("Erro ao setar horario de inicio")
-                            }
-
-                            try {
-                                var endWork = [...document.querySelectorAll("[id='main']")[0].querySelectorAll("span")].find(el => el.textContent.includes("Hora de Fim do trabalho*")).parentElement.parentElement.parentElement.children[1].children[0].children[2].children[0]
-
-                                endWork.scrollIntoView()
-
-                                endWork.dispatchEvent(
-                                    new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, which: 40, bubbles: true })
-                                  );
-                                endWork.dispatchEvent(
-                                new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, which: 40, bubbles: true })
-                                );
-                                setTimeout(() => {
+                                        new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, which: 40, bubbles: true })
+                                      );
+                                    setTimeout(() => {
+                                        startWork.dispatchEvent(
+                                            new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true })
+                                        );
+                                        
+                                    },1000)                                  
+                                }catch{
+                                    console.log("Erro ao setar horario de inicio")
+                                }
+    
+                                try {
+                                    var endWork = [...document.querySelectorAll("[id='main']")[0].querySelectorAll("span")].find(el => el.textContent.includes("Hora de Fim do trabalho*")).parentElement.parentElement.parentElement.children[1].children[0].children[2].children[0]
+    
+                                    endWork.scrollIntoView()
+    
                                     endWork.dispatchEvent(
-                                        new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true })
+                                        new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, which: 40, bubbles: true })
+                                      );
+                                    endWork.dispatchEvent(
+                                    new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40, which: 40, bubbles: true })
                                     );
-                                    
-                                },1000)         
-                            } catch {
-                                console.log("Erro ao setar horario de fim")
-                            }
-
-
+                                    setTimeout(() => {
+                                        endWork.dispatchEvent(
+                                            new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true })
+                                        );
+                                        
+                                    },1000)         
+                                } catch {
+                                    console.log("Erro ao setar horario de fim")
+                                }
+                                setTimeout(() => {
+                                    // Descrição
+                                    if (valoresColunaG[0].includes("Incidente")) {
+                                        let description = document.querySelector('#ak-editor-textarea')
+                                        description.scrollIntoView()
+                                        // .value não funciona
+                                        description.textContent = 'Prezados, colaborador(a) entra em contato por telefone e relata';
+                                    } else if (valoresColunaG[0].includes("Requisição")) {
+                                        let description = document.querySelector('#ak-editor-textarea')
+                                        description.scrollIntoView()
+                                        // .value não funciona
+                                        description.textContent = 'Prezados, colaborador(a) entra em contato por telefone e solicita';
+                                    }
+                                    setTimeout(() => {
+                                        try{
+                                            let elementAssunto = document.querySelectorAll("[title='long text']")[0];
+                                            elementAssunto.scrollIntoView()
+                                            // Assunto da planilha
+                                            elementAssunto.value = valoresColunaD[0] + " ";
+                                        } catch {
+                                            console.log("Assunto falhou")
+                                        }
+                                    },1000)
+                                },1000)
+                            },1000)
                         }, 3000);
                     }, 2000);
                 }, 2000);
