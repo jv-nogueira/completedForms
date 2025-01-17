@@ -145,7 +145,6 @@
                                     }catch{
                                         console.log("Erro ao setar unidade")
                                     }
-                                    setTimeout(() => {
                                         // Descrição
                                         if (valoresColunaG[0].includes("Incidente")) {
                                             let description = document.querySelector('#ak-editor-textarea')
@@ -180,7 +179,6 @@
                                                 console.log("Assunto falhou")
                                             }
                                         },1000)
-                                    },1000)
                                 },1000)
                             },1000)
                         }, 3000);
