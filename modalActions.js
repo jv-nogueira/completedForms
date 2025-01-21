@@ -145,40 +145,28 @@
                                     }catch{
                                         console.log("Erro ao setar unidade")
                                     }
-                                        // Descrição
-                                        if (valoresColunaG[0].includes("Incidente")) {
-                                            let description = document.querySelector('#ak-editor-textarea')
-                                            description.scrollIntoView()
-                                            // .value não funciona
-                                            description.textContent = 'Prezados, colaborador(a) entra em contato por telefone e relata';
-                                        } else if (valoresColunaG[0].includes("Requisição")) {
-                                            let description = document.querySelector('#ak-editor-textarea')
-                                            description.scrollIntoView()
-                                            // .value não funciona
-                                            description.textContent = 'Prezados, colaborador(a) entra em contato por telefone e solicita';
-                                        }
-                                        // Telefone
+                                    // Descrição
+                                    if (valoresColunaG[0].includes("Incidente")) {
+                                        let description = document.querySelector('#ak-editor-textarea')
+                                        description.scrollIntoView()
+                                        // .value não funciona
+                                        description.textContent = 'Prezados, colaborador(a) entra em contato por telefone e relata';
+                                    } else if (valoresColunaG[0].includes("Requisição")) {
+                                        let description = document.querySelector('#ak-editor-textarea')
+                                        description.scrollIntoView()
+                                        // .value não funciona
+                                        description.textContent = 'Prezados, colaborador(a) entra em contato por telefone e solicita';
+                                    }
+                                    setTimeout(() => {
                                         try{
-                                            document.querySelectorAll("[title='long text']")[1].value = "0 "
-                                        }catch{
-                                            console.log("Não tem telefone")
+                                            let elementAssunto = document.querySelectorAll("[title='long text']")[0];
+                                            elementAssunto.scrollIntoView()
+                                            // Assunto da planilha
+                                            elementAssunto.value = valoresColunaD[0] + " ";
+                                        } catch {
+                                            console.log("Assunto falhou")
                                         }
-                                        // Patrimonio
-                                        try{
-                                            document.querySelectorAll("[title='short text']")[0].value = 'nao perguntado '
-                                        }catch{
-                                        console.log("Não tem patrimonio")
-                                        }
-                                        setTimeout(() => {
-                                            try{
-                                                let elementAssunto = document.querySelectorAll("[title='long text']")[0];
-                                                elementAssunto.scrollIntoView()
-                                                // Assunto da planilha
-                                                elementAssunto.value = valoresColunaD[0] + " ";
-                                            } catch {
-                                                console.log("Assunto falhou")
-                                            }
-                                        },1000)
+                                    },1000)
                                 },1000)
                             },1000)
                         }, 3000);

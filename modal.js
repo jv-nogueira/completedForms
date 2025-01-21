@@ -96,7 +96,6 @@ function loadCSS() {
 }
 
 function showModal(resultado, linhas) {
-    console.log("Criando modal com resultado:", resultado);
     loadCSS();
 
     const modal = document.createElement('div');
@@ -111,15 +110,14 @@ function showModal(resultado, linhas) {
     inputBox.autocomplete = 'off';
     inputBox.placeholder = 'Digite o número da opção e dê Enter';
 
+    setTimeout(() => {inputBox.focus()}, 1);
+
     const closeButton = document.createElement('button');
     closeButton.innerText = 'Fechar';
+    closeButton.classList.add('close-button');
     closeButton.addEventListener('click', function() {
         document.body.removeChild(modal);
     });
-
-    setTimeout(() => {
-        inputBox.focus();
-    }, 1);
 
     inputBox.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
