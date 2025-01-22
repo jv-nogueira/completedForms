@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "Preenche campos automaticamente",
+    "name": "Predefinidor de tabulação",
     "version": "0.1",
     "permissions": ["activeTab"],
     "icons": { 

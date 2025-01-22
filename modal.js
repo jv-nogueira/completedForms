@@ -5,106 +5,145 @@ document.addEventListener("keydown", function(event) {
         const planilhaUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRA1YNzHggx374b2qLpbtPvOxpHLn_B3JVB2yKj413BI1FIjWslKCiOWnTDpT30kTRpXANPhKkOUV2e/pub?output=csv';
 
         fetch(planilhaUrl)
-            .then(response => {
-                return response.text();
-            })
+            .then(response => response.text())
             .then(data => {
-                console.log("Dados CSV recebidos:", data);
                 const linhas = data.split('\n');
-                console.log("Linhas do CSV divididas:", linhas);
-
-                const colunasPrimeiraLinha = linhas[0].split(',');
-
-                const valoresColunaD = [];
-                linhas.forEach((linha, index) => {
-                    if (index > 0) {
-                        const colunas = linha.split(',');
-                        valoresColunaD.push(`${index} - ${colunas[3]}`);
-                    }
+                const valoresColunaD = linhas.slice(1).map((linha, index) => {
+                    const colunas = linha.split(',');
+                    return `${index + 1} - ${colunas[3]}`;
                 });
-                console.log("Valores da coluna D com numeração:", valoresColunaD);
 
-                function formatarResultado(filtro = '') {
-                    let resultadoFiltrado = `${colunasPrimeiraLinha[3]}\n\n`;
+                // Calcula o tamanho máximo entre os valores filtrados
+                const tamanhoMaximoFiltrado = Math.max(...valoresColunaD.map(item => item.length));
+
+                function criarBotoes(filtro = '') {
                     const valoresFiltrados = valoresColunaD.filter(item => item.toLowerCase().includes(filtro.toLowerCase()));
-                    console.log("Valores filtrados:", valoresFiltrados);
 
-                    // tamanho dos valores das células
-                    const tamanhoMaximoFiltrado = Math.max(...valoresFiltrados.map(item => item.length)); 
-
-                    // divisão entre cada coluna
-                    const numeroDeColunasFiltradas = Math.ceil(valoresFiltrados.length / 15);
-
-                    const colunasFormatadasFiltradas = Array.from({ length: numeroDeColunasFiltradas }, () => []);
-                    valoresFiltrados.forEach((valor, index) => {
-                        const colunaIndex = Math.floor(index / 15);
-                        colunasFormatadasFiltradas[colunaIndex].push(valor.padEnd(tamanhoMaximoFiltrado, ' '));
-                    });
-
-                    console.log("Colunas formatadas filtradas:", colunasFormatadasFiltradas);
-
-                    for (let i = 0; i < 20; i++) {
-                        let linha = '';
-                        colunasFormatadasFiltradas.forEach(coluna => {
-                            if (coluna[i]) {
-                                linha += coluna[i] + '\t';
-                            }
+                    const colunas = [];
+                    for (let i = 0; i < valoresFiltrados.length; i++) {
+                        const botao = document.createElement('button');
+                        botao.innerText = valoresFiltrados[i];
+                        botao.classList.add('botao-modal');
+                        // Cursor muda para mãozinha
+                        botao.style.cursor = 'pointer';
+                        // Largura fixa com base no maior valor
+                        botao.style.width = `${tamanhoMaximoFiltrado}ch`; 
+                        // Alinhamento à esquerda
+                        botao.style.textAlign = 'left'; 
+                        botao.addEventListener('click', () => {
+                            // Extrai o número antes do " - "
+                            const numeroLinha = valoresFiltrados[i].split(' - ')[0]; 
+                            // Chama a função com o número da linha e o array de linhas
+                            processarSelecao(numeroLinha, linhas);
                         });
-                        if (linha.trim()) {
-                            resultadoFiltrado += linha.trim() + '\n';
-                        }
+
+                        const colunaIndex = Math.floor(i / 15);
+                        if (!colunas[colunaIndex]) colunas[colunaIndex] = [];
+                        colunas[colunaIndex].push(botao);
                     }
-                    console.log("Resultado final formatado:", resultadoFiltrado);
-                    return resultadoFiltrado;
+                    return colunas;
                 }
 
-                // Verificar se a modal já existe
                 let modal = document.querySelector('#modal');
                 if (!modal) {
-                    showModal(formatarResultado(), linhas);
+                    showModal(criarBotoes(), linhas);
                 }
-                // Atualiza a modal existente com o novo filtro
+
                 const inputBox = document.querySelector('#inputBox');
                 inputBox.addEventListener('input', function() {
                     const filtro = inputBox.value;
-                    const modal = document.querySelector('#modal');
-                    const modalContent = modal.querySelector('.modal-content pre');
-                    modalContent.innerHTML = formatarResultado(filtro);
+                    const modalContent = document.querySelector('.modal-content .botoes-container');
+                    modalContent.innerHTML = '';
+
+                    const novasColunas = criarBotoes(filtro);
+                    novasColunas.forEach(coluna => {
+                        const colunaDiv = document.createElement('div');
+                        colunaDiv.classList.add('coluna');
+                        coluna.forEach(botao => colunaDiv.appendChild(botao));
+                        modalContent.appendChild(colunaDiv);
+                    });
                 });
-            })
+            });
     }
 });
 
-// importa o CSS
 function loadCSS() {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = chrome.runtime.getURL('modal.css');
-    document.head.appendChild(link);
+    const style = document.createElement('style');
+    style.innerHTML = `
+        #modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-content {
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80vw;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .botoes-container {
+            display: flex;
+            gap: 16px;
+        }
+        .coluna {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .close-button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .close-button:hover {
+            background-color: #c82333;
+        }
+    `;
+    document.head.appendChild(style);
 }
 
-function showModal(resultado, linhas) {
+function showModal(botoes, linhas) {
     loadCSS();
 
-    // Corpo da modal
     const modal = document.createElement('div');
     modal.setAttribute('id', 'modal');
 
-    // Conteúdo dentro do corpo da modal
     const modalContent = document.createElement('div');
     modalContent.classList.add('modal-content');
 
-    // Caixa de texto da modal
+    const botoesContainer = document.createElement('div');
+    botoesContainer.classList.add('botoes-container');
+    botoes.forEach(coluna => {
+        const colunaDiv = document.createElement('div');
+        colunaDiv.classList.add('coluna');
+        coluna.forEach(botao => colunaDiv.appendChild(botao));
+        botoesContainer.appendChild(colunaDiv);
+    });
+
     const inputBox = document.createElement('input');
     inputBox.type = 'text';
     inputBox.id = 'inputBox';
     inputBox.autocomplete = 'off';
     inputBox.placeholder = 'Digite o número da opção e dê Enter';
 
-    // Ao abrir a modal, foca na caixa de texto
-    setTimeout(() => {inputBox.focus()}, 1);
+    setTimeout(() => {
+        inputBox.focus();
+    }, 1);
 
-    // Cria botão para fechar a modal
     const closeButton = document.createElement('button');
     closeButton.innerText = 'Fechar';
     closeButton.classList.add('close-button');
@@ -121,9 +160,9 @@ function showModal(resultado, linhas) {
         }
     });
 
-    modalContent.innerHTML = `<pre>${resultado}</pre>`;
-    modalContent.insertBefore(inputBox, modalContent.firstChild); // caixa de texto
-    modalContent.appendChild(closeButton); // botão de fechar
-    modal.appendChild(modalContent); // conteúdo da modal
-    document.body.appendChild(modal); // corpo da modal
+    modalContent.appendChild(inputBox);
+    modalContent.appendChild(botoesContainer);
+    modalContent.appendChild(closeButton);
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
 }

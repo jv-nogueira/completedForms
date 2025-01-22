@@ -1,5 +1,6 @@
  function processarSelecao(inputBoxValue, linhas) {
     // Verificar se o valor digitado é um número
+    // .trim() exige que seja uma string para converter em número
     const numeroEscolhido = parseInt(inputBoxValue.trim(), 10);
     console.log("Numero escolhido: "+numeroEscolhido)
     if (!isNaN(numeroEscolhido)) {
