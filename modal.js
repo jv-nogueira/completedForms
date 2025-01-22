@@ -26,8 +26,8 @@ document.addEventListener("keydown", function(event) {
                         botao.classList.add('botao-modal');
                         // Cursor muda para mãozinha
                         botao.style.cursor = 'pointer';
-                        // Largura fixa com base no maior valor
-                        botao.style.width = `${tamanhoMaximoFiltrado}ch`; 
+                        // Largura fixa com base no maior valor subtraindo por 5
+                        botao.style.width = `${tamanhoMaximoFiltrado-5}ch`; 
                         // Alinhamento à esquerda
                         botao.style.textAlign = 'left'; 
                         botao.addEventListener('click', () => {
@@ -93,12 +93,12 @@ function loadCSS() {
         }
         .botoes-container {
             display: flex;
-            gap: 16px;
+            gap: 8px;
         }
         .coluna {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 4px;
         }
         .close-button {
             margin-top: 10px;
@@ -108,9 +108,6 @@ function loadCSS() {
             border: none;
             border-radius: 5px;
             cursor: pointer;
-        }
-        .close-button:hover {
-            background-color: #c82333;
         }
     `;
     document.head.appendChild(style);
