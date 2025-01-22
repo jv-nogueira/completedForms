@@ -14,7 +14,6 @@ document.addEventListener("keydown", function(event) {
                 console.log("Linhas do CSV divididas:", linhas);
 
                 const colunasPrimeiraLinha = linhas[0].split(',');
-                console.log("Primeira linha do CSV (títulos):", colunasPrimeiraLinha);
 
                 const valoresColunaD = [];
                 linhas.forEach((linha, index) => {
@@ -26,16 +25,15 @@ document.addEventListener("keydown", function(event) {
                 console.log("Valores da coluna D com numeração:", valoresColunaD);
 
                 function formatarResultado(filtro = '') {
-                    console.log("Formatando resultado com filtro:", filtro);
                     let resultadoFiltrado = `${colunasPrimeiraLinha[3]}\n\n`;
                     const valoresFiltrados = valoresColunaD.filter(item => item.toLowerCase().includes(filtro.toLowerCase()));
                     console.log("Valores filtrados:", valoresFiltrados);
 
-                    const tamanhoMaximoFiltrado = Math.max(...valoresFiltrados.map(item => item.length));
-                    console.log("Tamanho máximo dos valores filtrados:", tamanhoMaximoFiltrado);
+                    // tamanho dos valores das células
+                    const tamanhoMaximoFiltrado = Math.max(...valoresFiltrados.map(item => item.length)); 
 
+                    // divisão entre cada coluna
                     const numeroDeColunasFiltradas = Math.ceil(valoresFiltrados.length / 15);
-                    console.log("Número de colunas filtradas:", numeroDeColunasFiltradas);
 
                     const colunasFormatadasFiltradas = Array.from({ length: numeroDeColunasFiltradas }, () => []);
                     valoresFiltrados.forEach((valor, index) => {
@@ -62,32 +60,22 @@ document.addEventListener("keydown", function(event) {
 
                 // Verificar se a modal já existe
                 let modal = document.querySelector('#modal');
-                console.log("Modal existente verificada:", modal);
                 if (!modal) {
                     showModal(formatarResultado(), linhas);
-                    console.log("Nova modal criada.");
                 }
-
+                // Atualiza a modal existente com o novo filtro
                 const inputBox = document.querySelector('#inputBox');
-                console.log("InputBox selecionado:", inputBox);
                 inputBox.addEventListener('input', function() {
                     const filtro = inputBox.value;
-                    console.log("Valor do filtro digitado na inputBox:", filtro);
-
-                    // Atualizar a modal existente com o novo filtro
                     const modal = document.querySelector('#modal');
-                    console.log("Modal encontrada para atualização:", modal);
                     const modalContent = modal.querySelector('.modal-content pre');
                     modalContent.innerHTML = formatarResultado(filtro);
-                    console.log("Modal atualizada com novos resultados.");
                 });
             })
-            .catch(error => {
-                console.error("Erro ao processar a planilha:", error);
-            });
     }
 });
 
+// importa o CSS
 function loadCSS() {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
@@ -98,20 +86,25 @@ function loadCSS() {
 function showModal(resultado, linhas) {
     loadCSS();
 
+    // Corpo da modal
     const modal = document.createElement('div');
     modal.setAttribute('id', 'modal');
 
+    // Conteúdo dentro do corpo da modal
     const modalContent = document.createElement('div');
     modalContent.classList.add('modal-content');
 
+    // Caixa de texto da modal
     const inputBox = document.createElement('input');
     inputBox.type = 'text';
     inputBox.id = 'inputBox';
     inputBox.autocomplete = 'off';
     inputBox.placeholder = 'Digite o número da opção e dê Enter';
 
+    // Ao abrir a modal, foca na caixa de texto
     setTimeout(() => {inputBox.focus()}, 1);
 
+    // Cria botão para fechar a modal
     const closeButton = document.createElement('button');
     closeButton.innerText = 'Fechar';
     closeButton.classList.add('close-button');
@@ -119,6 +112,7 @@ function showModal(resultado, linhas) {
         document.body.removeChild(modal);
     });
 
+    // Ao dar Enter executa o script conforme o número digitado
     inputBox.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
             console.log("Enter pressionado.");
@@ -128,11 +122,8 @@ function showModal(resultado, linhas) {
     });
 
     modalContent.innerHTML = `<pre>${resultado}</pre>`;
-    modalContent.insertBefore(inputBox, modalContent.firstChild);
-    modalContent.appendChild(closeButton);
-    modal.appendChild(modalContent);
-    console.log("Conteúdo adicionado à modal.");
-
-    document.body.appendChild(modal);
-    console.log("Modal adicionada ao body.");
+    modalContent.insertBefore(inputBox, modalContent.firstChild); // caixa de texto
+    modalContent.appendChild(closeButton); // botão de fechar
+    modal.appendChild(modalContent); // conteúdo da modal
+    document.body.appendChild(modal); // corpo da modal
 }
