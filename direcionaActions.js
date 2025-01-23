@@ -1,0 +1,4 @@
+function direciona(){
+
+confirm("testando")
+}

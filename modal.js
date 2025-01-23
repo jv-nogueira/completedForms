@@ -1,5 +1,6 @@
 document.addEventListener("keydown", function(event) {
     if (event.keyCode === 113) { // F2 para iniciar
+        if(document.location.href.includes('https://sesisenaisp.atlassian.net/servicedesk/customer/portal/15')){
         console.log("F2 pressionado, numerando as linhas da coluna D...");
 
         const planilhaUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRA1YNzHggx374b2qLpbtPvOxpHLn_B3JVB2yKj413BI1FIjWslKCiOWnTDpT30kTRpXANPhKkOUV2e/pub?output=csv';
@@ -64,6 +65,9 @@ document.addEventListener("keydown", function(event) {
                     });
                 });
             });
+        } else{
+            direciona()
+        }
     }
 });
 

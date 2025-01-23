@@ -11,7 +11,9 @@
         "matches": ["<all_urls>"],
         "js": [
           "modal.js",
-          "modalActions.js"
+          "modalActions.js",
+          "direcionaActions.js"
+
         ],
         "css": [
           "modal.css"
