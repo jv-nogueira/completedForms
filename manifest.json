@@ -12,7 +12,8 @@
         "js": [
           "modal.js",
           "modalActions.js",
-          "direcionaActions.js"
+          "direcionaActions.js",
+          "temp.js"
 
         ],
         "css": [
