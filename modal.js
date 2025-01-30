@@ -1,7 +1,6 @@
 document.addEventListener("keydown", function(event) {
     if (event.keyCode === 113) { // F2 para iniciar
         if(document.location.href.includes('https://sesisenaisp.atlassian.net/servicedesk/customer/portal/15')){
-        console.log("F2 pressionado, numerando as linhas da coluna D...");
 
         const planilhaUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRA1YNzHggx374b2qLpbtPvOxpHLn_B3JVB2yKj413BI1FIjWslKCiOWnTDpT30kTRpXANPhKkOUV2e/pub?output=csv';
 
@@ -11,8 +10,16 @@ document.addEventListener("keydown", function(event) {
                 const linhas = data.split('\n');
                 const valoresColunaD = linhas.slice(1).map((linha, index) => {
                     const colunas = linha.split(',');
-                    return `${index + 1} - ${colunas[3]}`;
+                    console.log("Testando: " + colunas[2]);
+                    let colunaTrue = colunas[3]; // Pega o valor original
+                
+                    if (colunas[2] === "TRUE") { // Só adiciona o * se não for "TRUE"
+                        colunaTrue += "*"
+                    }
+                
+                    return `${index + 1} - ${colunaTrue}`;
                 });
+                
 
                 // Calcula o tamanho máximo entre os valores filtrados
                 const tamanhoMaximoFiltrado = Math.max(...valoresColunaD.map(item => item.length));
@@ -28,7 +35,7 @@ document.addEventListener("keydown", function(event) {
                         // Cursor muda para mãozinha
                         botao.style.cursor = 'pointer';
                         // Largura fixa com base no maior valor subtraindo por 5
-                        botao.style.width = `${tamanhoMaximoFiltrado-5}ch`; 
+                        botao.style.width = `${tamanhoMaximoFiltrado}ch`; 
                         // Alinhamento à esquerda
                         botao.style.textAlign = 'left'; 
                         botao.addEventListener('click', () => {
@@ -65,105 +72,106 @@ document.addEventListener("keydown", function(event) {
                     });
                 });
             });
+        
+
+        function loadCSS() {
+            const style = document.createElement('style');
+            style.innerHTML = `
+                #modal {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 9999;
+                    background-color: rgba(0, 0, 0, 0.5);
+                }
+                .modal-content {
+                    background-color: white;
+                    color: black;
+                    padding: 20px;
+                    border-radius: 10px;
+                    width: 80vw;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                }
+                .botoes-container {
+                    display: flex;
+                    gap: 8px;
+                }
+                .coluna {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 4px;
+                }
+                .close-button {
+                    margin-top: 10px;
+                    padding: 10px;
+                    background-color: #f44336;
+                    color: white;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        function showModal(botoes, linhas) {
+            loadCSS();
+
+            const modal = document.createElement('div');
+            modal.setAttribute('id', 'modal');
+
+            const modalContent = document.createElement('div');
+            modalContent.classList.add('modal-content');
+
+            const botoesContainer = document.createElement('div');
+            botoesContainer.classList.add('botoes-container');
+            botoes.forEach(coluna => {
+                const colunaDiv = document.createElement('div');
+                colunaDiv.classList.add('coluna');
+                coluna.forEach(botao => colunaDiv.appendChild(botao));
+                botoesContainer.appendChild(colunaDiv);
+            });
+
+            const inputBox = document.createElement('input');
+            inputBox.type = 'text';
+            inputBox.id = 'inputBox';
+            inputBox.autocomplete = 'off';
+            inputBox.placeholder = 'Digite o número da opção e dê Enter';
+
+            setTimeout(() => {
+                inputBox.focus();
+            }, 1);
+
+            const closeButton = document.createElement('button');
+            closeButton.innerText = 'Fechar';
+            closeButton.classList.add('close-button');
+            closeButton.addEventListener('click', function() {
+                document.body.removeChild(modal);
+            });
+
+            // Ao dar Enter executa o script conforme o número digitado
+            inputBox.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    console.log("Enter pressionado.");
+                    console.log("Processando seleção com base na linha:", linhas[inputBox.value]);
+                    processarSelecao(inputBox.value, linhas);
+                }
+            });
+
+            modalContent.appendChild(inputBox);
+            modalContent.appendChild(botoesContainer);
+            modalContent.appendChild(closeButton);
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+            }
         } else{
             direciona()
         }
     }
 });
-
-function loadCSS() {
-    const style = document.createElement('style');
-    style.innerHTML = `
-        #modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-        .modal-content {
-            background-color: white;
-            color: black;
-            padding: 20px;
-            border-radius: 10px;
-            width: 80vw;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        .botoes-container {
-            display: flex;
-            gap: 8px;
-        }
-        .coluna {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .close-button {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #f44336;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    `;
-    document.head.appendChild(style);
-}
-
-function showModal(botoes, linhas) {
-    loadCSS();
-
-    const modal = document.createElement('div');
-    modal.setAttribute('id', 'modal');
-
-    const modalContent = document.createElement('div');
-    modalContent.classList.add('modal-content');
-
-    const botoesContainer = document.createElement('div');
-    botoesContainer.classList.add('botoes-container');
-    botoes.forEach(coluna => {
-        const colunaDiv = document.createElement('div');
-        colunaDiv.classList.add('coluna');
-        coluna.forEach(botao => colunaDiv.appendChild(botao));
-        botoesContainer.appendChild(colunaDiv);
-    });
-
-    const inputBox = document.createElement('input');
-    inputBox.type = 'text';
-    inputBox.id = 'inputBox';
-    inputBox.autocomplete = 'off';
-    inputBox.placeholder = 'Digite o número da opção e dê Enter';
-
-    setTimeout(() => {
-        inputBox.focus();
-    }, 1);
-
-    const closeButton = document.createElement('button');
-    closeButton.innerText = 'Fechar';
-    closeButton.classList.add('close-button');
-    closeButton.addEventListener('click', function() {
-        document.body.removeChild(modal);
-    });
-
-    // Ao dar Enter executa o script conforme o número digitado
-    inputBox.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') {
-            console.log("Enter pressionado.");
-            console.log("Processando seleção com base na linha:", linhas[inputBox.value]);
-            processarSelecao(inputBox.value, linhas);
-        }
-    });
-
-    modalContent.appendChild(inputBox);
-    modalContent.appendChild(botoesContainer);
-    modalContent.appendChild(closeButton);
-    modal.appendChild(modalContent);
-    document.body.appendChild(modal);
-}
