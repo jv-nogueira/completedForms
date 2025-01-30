@@ -65,19 +65,30 @@
                                     console.log("Falhou ao clicar para tirar o relator")
                                 }
                                 setTimeout(() => { 
+                                    // Abre a lista de atividade
+                                    var evento = new MouseEvent('mousedown', {
+                                        bubbles: true,
+                                        cancelable: true,
+                                        view: window
+                                    });
                                     try{
                                         elementoAtividade = [...document.querySelectorAll('span')].find(al => al.textContent == "Selecione a atividade*").parentElement.parentElement.parentElement.children[1].children[0].children[2].children[1]
 
-                                        // Abre a lista de atividade
-                                        const evento = new MouseEvent('mousedown', {
-                                            bubbles: true,
-                                            cancelable: true,
-                                            view: window
-                                        });
+                                        if(elementoAtividade){
                                         elementoAtividade.dispatchEvent(evento); 
-                                        }catch{
-                                            console.log("Erro ao clicar para selecionar atividades")
                                         }
+                                    }catch{
+                                        console.log("Erro ao clicar para selecionar atividades")
+                                    }
+                                    try{
+                                        elementoNegocio = [...document.querySelectorAll('span')].find(al => al.textContent == "Processo de negócio*").parentElement.parentElement.parentElement.children[1].children[0].children[2].children[1]
+                                    
+                                        if(elementoNegocio){
+                                            elementoNegocio.dispatchEvent(evento); 
+                                        }
+                                    }catch{
+                                        console.log("Erro ao clicar para selecionar processe de negócio")
+                                    }
                                     setTimeout(() => { 
                                         try{
                                             let indexActivityList = 0;
@@ -95,6 +106,23 @@
                                             }
                                         }catch{
                                             console.log("erro na lista de atividades")
+                                        }
+                                        try{
+                                            let indexProcessList = 0;
+                                            listaProcessoNegocio();
+                                            // Seleciona lista de atividades
+                                            function listaProcessoNegocio() {
+                                                const processList = [...document.querySelectorAll('span')].find(al => al.textContent == "Processo de negócio*").parentElement.parentElement.parentElement.children[1].children[0].children[3].children[0].children[0].children[indexProcessList];
+                                                if (processList.textContent.includes(valoresColunaE[0])) {
+                                                    console.log("O valor da coluna E é true");
+                                                    processList.click();
+                                                } else {
+                                                    indexProcessList++;
+                                                    listaProcessoNegocio();
+                                                }
+                                            }
+                                        }catch{
+                                            console.log("erro na lista processo de negócio")                                           
                                         }
                                         setTimeout(() => {                             
                                             try {
